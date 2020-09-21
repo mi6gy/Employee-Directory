@@ -12,11 +12,11 @@ export default class EmployeeCard extends Component{
     }
 
     headings = [
-        {name: "imgage", width: "15%"},
-        {name: "name", width: "15%" },
-        {name: "phone", width: "15%"},
-        {name: "email", width: "15%"},
-        {name: "age", width: "15%"}
+        {name: "Employee Photo", width: "15%"},
+        {name: "Name", width: "15%" },
+        {name: "Phone", width: "15%"},
+        {name: "E-mail", width: "15%"},
+        {name: "Age", width: "15%"}
     ]
 
     sort = (name) => {
@@ -28,7 +28,7 @@ export default class EmployeeCard extends Component{
 
     //compare function
         // if order = ascend
-        
+
 
     handleSearch = e => {
         const filter = e.target.value;
