@@ -6,7 +6,7 @@ function DataBody({users}){
         <tbody>
             {users[0] !== undefined && users[0].name !== undefined ? (
                 users.map(({name, picture, phone, email, dob, login}) => {
-             console.log(login)
+            //  console.log(login)
         
                 return( 
                     <tr key={login.uuid}>

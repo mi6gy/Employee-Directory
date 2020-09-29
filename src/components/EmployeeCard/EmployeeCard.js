@@ -19,84 +19,57 @@ export default class EmployeeCard extends Component{
         {name: "Age", width: "10%"}
     ]
 
-    // sort = (name) => {
-    //    // check to see is this.state.order == descend
-    //     // set state order = ascend
-    // // if false
-    //     //this,setstate = descend
-    // }
-
-    //compare function
-        // if order = asce
-
-
-        const handleSort = (heading) => {
-            let currentOrder = developerState.headings
-              .filter((elem) => elem.name === heading)
-              .map((elem) => elem.order)
-              .toString();
+        handleSort = heading => {
+            console.log(heading)
+          if(this.state.order === "descend"){
+            this.setState({
+              order: "ascend"
+            })
+          }
+          else{
+            this.setState({
+              order: "descend"
+            })
+          }
+          
         
-            if (currentOrder === "descend") {
-              currentOrder = "ascend";
+      const compareFnc = (a, b) => {
+          // console.log("YOOOO", a,b);
+          if (this.state.order === "ascend") {
+            if (a[heading] === undefined) {
+              return 1;
+            } else if (b[heading] === undefined) {
+              return -1;
+            } else if (heading === "name") {
+              return a[heading].first.localeCompare(b[heading].first);
+            } else if (heading === "age") {
+              return a[heading].dob - b[heading].dob;
             } else {
-              currentOrder = "descend";
+              return a[heading].localeCompare(b[heading]);
             }
-        
-            const compareFnc = (a, b) => {
-              if (currentOrder === "ascend") {
-                if (a[heading] === undefined) {
-                  return 1;
-                } else if (b[heading] === undefined) {
-                  return -1;
-                } else if (heading === "name") {
-                  return a[heading].first.localeCompare(b[heading].first);
-                } else if (heading === "dob") {
-                  return a[heading].age - b[heading].age;
-                } else {
-                  return a[heading].localeCompare(b[heading]);
-                }
-              } else {
-                if (a[heading] === undefined) {
-                  return 1;
-                } else if (b[heading] === undefined) {
-                  return -1;
-                } else if (heading === "name") {
-                  return b[heading].first.localeCompare(a[heading].first);
-                } else if (heading === "dob") {
-                  return b[heading].age - a[heading].age;
-                } else {
-                  return b[heading].localeCompare(a[heading]);
-                }
-              }
-            };
-            const sortedUsers = developerState.filteredUsers.sort(compareFnc);
-            const updatedHeadings = developerState.headings.map((elem) => {
-              elem.order = elem.name === heading ? currentOrder : elem.order;
-              return elem;
-            });
-        
-            setDeveloperState({
-              ...developerState,
-              filteredUsers: sortedUsers,
-              headings: updatedHeadings,
-            });
-          };
-        
-          const handleSearchChange = (event) => {
-            const filter = event.target.value;
-            const filteredList = developerState.users.filter((item) => {
-              let values =
-                item.name.first.toLowerCase() + " " + item.name.last.toLowerCase();
-              console.log(filter, values);
-              if (values.indexOf(filter.toLowerCase()) !== -1) {
-                return item;
-              }
-            });
-        
-            setDeveloperState({ ...developerState, filteredUsers: filteredList });
-          };
-
-    handleSearch = e => {
+          } else {
+            if (a[heading] === undefined) {
+              return 1;
+            } else if (b[heading] === undefined) {
+              return -1;
+            } else if (heading === "name") {
+              return b[heading].first.localeCompare(a[heading].first);
+            } else if (heading === "age") {
+              return b[heading].dob - a[heading].dob;
+            } else {
+              return b[heading].localeCompare(a[heading]);
+            }
+          }
+      }
+         const sortedUsers = this.state.filteredList.sort(compareFnc);
+        this.setState({ filteredList: sortedUsers })
+        // const updatedHeadings = developerState.headings.map((elem) => {
+        //   elem.order = elem.name === heading ? currentOrder : elem.order;
+        //   return elem;
+         
+        // );  
+        }
+          handleSearch = e => {
         const filter = e.target.value;
 
         const filteredList = this.state.users.filter(item =>{
@@ -110,7 +83,7 @@ export default class EmployeeCard extends Component{
             filteredList: filteredList
         })
 
-    }
+    }  
 
     componentDidMount(){
         API.getUsers()
@@ -124,7 +97,6 @@ export default class EmployeeCard extends Component{
     }
 
     render(){
-        // console.log(this.state)
         return (
             <>
             <NavBar
@@ -134,8 +106,47 @@ export default class EmployeeCard extends Component{
                 headings={this.headings}
                 users={this.state.filteredList}
                 sort={this.sort}
+                handleSort={this.handleSort}
             />
             </>
         )
     }
-}
+  
+  };
+  
+  // setDeveloperState({
+            //   ...developerState,
+            //   filteredUsers: sortedUsers,
+            //   headings: updatedHeadings,
+            // });
+          
+        
+          // const handleSearchChange = (event) => {
+          //   const filter = event.target.value;
+          //   const filteredList = developerState.users.filter((item) => {
+          //     let values =
+          //       item.name.first.toLowerCase() + " " + item.name.last.toLowerCase();
+          //     console.log(filter, values);
+          //     if (values.indexOf(filter.toLowerCase()) !== -1) {
+          //       return item;
+          //     }
+          //   });
+        
+            // setDeveloperState({ ...developerState, filteredUsers: filteredList });
+          // };
+
+    // handleSearch = e => {
+    //     const filter = e.target.value;
+
+    //     const filteredList = this.state.users.filter(item =>{
+    //         //turn obj into one string
+    //         let values = Object.values(item).join("").toLowerCase();
+    //         //return obj that dosent -1
+    //        return values.indexOf(filter.toLowerCase()) !== -1;
+    //     })
+    //    // console.log(filteredList)
+    //     this.setState({
+    //         filteredList: filteredList
+    //     })
+
+    // }

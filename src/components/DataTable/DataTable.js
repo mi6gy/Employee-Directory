@@ -1,7 +1,7 @@
 import React from 'react';
 import DataBody from "../DataBody/DataBody";
 
-function DataTable({ headings, users, sort }){
+function DataTable({ headings, users, handleSort }){
   
     return(
         <div>
@@ -9,13 +9,13 @@ function DataTable({ headings, users, sort }){
                 <thead>
                 <tr>
                 { headings.map(({name, width}) =>{
-                  console.log("fun", name)
+
                     return(
                         <th
                             key={name}
                             style={{width}}
                             onClick={() => {
-                                sort(name)
+                               handleSort(name.toLowerCase())
                             }}
                         >
                             {name}
